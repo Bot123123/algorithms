@@ -25,20 +25,23 @@ def eratosthenes(end, start=2, return_boolean=False):
     :rtype: Depending on `return_boolean` either returns boolean and primes or
             just the primes.
     """
+    if start > end:
+        return [] if not return_boolean else (False, [])
+
+    sieve = range(end)
     primes = []
-    if end < start or end < 2:
-        return []
-    is_prime = [True for i in range(end + 1)]
-    is_prime[0] = is_prime[1] = False
-    for i in range(2, end + 1):
-        if not is_prime[i]:
-            continue
-        if start <= i <= end:
-            primes.append(i)
-        j = i * i
-        while j <= end:
-            is_prime[j] = False
-            j += i
+    next_num = 2
+
+    while next_num:
+        if start <= next_num < end:
+            primes.append(next_num)
+
+        for i in sieve[::next_num]:
+            if i is not None:
+                sieve[i] = None
+
+        next_num = next((i for i in sieve[(next_num + 1):] if i is not None), None)
+
     if return_boolean:
-        return primes, is_prime
+        return bool(primes), primes
     return primes

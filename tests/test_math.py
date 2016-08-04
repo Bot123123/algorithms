@@ -105,7 +105,27 @@ class TestSieveOfAtkin(unittest.TestCase):
 
 class TestSieveOfEratosthenes(unittest.TestCase):
 
-    def test_eratosthenes(self):
+    def test_positive(self):
+        self.assertEqual(eratosthenes(50),
+                        [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47])
+
+        self.assertEqual(eratosthenes(51, 10),
+                        [11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47])
+
+        self.assertEqual(eratosthenes(10, 1, True),
+                         (True, [2, 3, 5, 7]))
+
+    def test_negative(self):
+        self.assertEqual(eratosthenes(50, 50), [])
+
+        self.assertEqual(eratosthenes(50, -5),
+                        [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47])
+
+        self.assertEqual(eratosthenes(-5, 10), [])
+
+        self.assertEqual(eratosthenes(-5, 10, True), (False, []))
+
+    def test_eratosthenes_additional(self):
         rv1 = eratosthenes(-10)
         rv2 = eratosthenes(10)
         rv3 = eratosthenes(100, 5)
